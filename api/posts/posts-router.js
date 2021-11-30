@@ -10,7 +10,7 @@ router.get('/', (req, res)=> {
     })
     .catch(error => {
         res.status(500).json({
-          message: 'Error retrieving the dogs',
+          message: 'The posts information could not be retrieved',
           error
         });
       });
@@ -28,7 +28,7 @@ router.get('/:id', (req,res) => {
     })
     .catch(error => {
         res.status(500).json({
-          message: 'Error retrieving the dogs',
+          message: 'he post information could not be retrieved',
           error
         });
       });
