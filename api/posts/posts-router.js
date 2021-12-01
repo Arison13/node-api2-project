@@ -34,27 +34,25 @@ router.get('/:id', (req,res) => {
       });
 })
 //POST endpoint
-router.post('/', (req, res) => {
-    const {title, content} = req.body
-    
-        if(!title || !content){
-            res.status(400).json({
-                message: "Please provide title and contents for the post"
-            })
-        }else{
-            Post.insert({title, content})
-                .then( ({ id }) => {
-                    return Post.findById(id)
-                })
-                .then(post => {
-                    res.status(201).json(post)
-                })
-                .catch(error => {
-                    res.status(500).json({
-                      message: 'There was an error while saving the post to the database',
-                      error: error.message
-                    });
-                  });
-        }
-})
+router.post("/", async (req, res) => {
+    try {
+      const { title, contents } = req.body;
+      if (!title || !contents) {
+        res.status(400).json({
+          message: "Please provide title and contents for the post",
+        });
+      } else {
+        const { id } = await Post.insert(req.body);
+        res.status(201).json({
+          id,
+          title,
+          contents,
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        message: "There was an error while saving the post to the database",
+      });
+    }
+  });
 module.exports = router
